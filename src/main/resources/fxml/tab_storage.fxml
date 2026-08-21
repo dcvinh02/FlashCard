@@ -18,8 +18,8 @@
                            style="-fx-background-color: transparent; -fx-border-width: 0; -fx-font-size: 15px;"
                            HBox.hgrow="ALWAYS"/>
             </HBox>
-            <Button text="📥 Nhập CSV" styleClass="btn-secondary" onAction="#handleImportCsv"/>
-            <Button text="📤 Xuất CSV" styleClass="btn-primary" onAction="#handleExportCsv"/>
+            <Button text="📥 Nhập JSON" styleClass="btn-secondary" onAction="#handleImportJson"/>
+            <Button text="📤 Xuất JSON" styleClass="btn-primary" onAction="#handleExportJson"/>
         </HBox>
 
         <!-- Danh sách -->

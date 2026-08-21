@@ -2,11 +2,13 @@ package com.deskapp.flashcard.service;
 
 import com.deskapp.flashcard.model.Flashcard;
 import com.deskapp.flashcard.repository.FlashcardRepository;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
-import org.apache.commons.csv.*;
+import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
-
 import java.util.List;
 
 public class FlashcardService {
@@ -63,34 +65,29 @@ public class FlashcardService {
         return success;
     }
 
-    public int importFromCsv(File file) throws Exception {
+    // ==========================================
+    // TÍNH NĂNG JSON (MỚI) - ỔN ĐỊNH TUYỆT ĐỐI
+    // ==========================================
+
+    public int importFromJson(File file) throws Exception {
         int importedCount = 0;
 
-        // Tự động phát hiện ký tự phân cách (, hoặc ;) do Excel trên Mac/Windows quy định
-        char delimiter = ',';
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
-            String firstLine = br.readLine();
-            if (firstLine != null && firstLine.contains(";") && !firstLine.contains(",")) {
-                delimiter = ';';
-            }
-        }
+        try (Reader reader = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)) {
+            Gson gson = new Gson();
+            // Định nghĩa kiểu List<Flashcard> để Gson biết cách ép kiểu
+            Type listType = new TypeToken<List<Flashcard>>() {}.getType();
+            List<Flashcard> cardsToImport = gson.fromJson(reader, listType);
 
-        // Đọc file với định dạng phân cách đã được xác định tự động
-        try (Reader reader = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);
-             CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT
-                     .withDelimiter(delimiter)
-                     .withFirstRecordAsHeader()
-                     .withTrim())) {
+            if (cardsToImport != null) {
+                for (Flashcard card : cardsToImport) {
+                    if (card.getEnglish() != null && !card.getEnglish().isEmpty() &&
+                            card.getVietnamese() != null && !card.getVietnamese().isEmpty()) {
 
-            for (CSVRecord record : csvParser) {
-                String eng = record.isMapped("English") ? record.get("English") : null;
-                String vie = record.isMapped("Vietnamese") ? record.get("Vietnamese") : null;
-                String note = record.isMapped("Note") ? record.get("Note") : "";
-
-                if (eng != null && !eng.isEmpty() && vie != null && !vie.isEmpty()) {
-                    Flashcard card = new Flashcard(eng.trim(), vie.trim(), note.trim());
-                    if (repository.insert(card)) {
-                        importedCount++;
+                        // Khởi tạo thẻ mới để làm sạch dữ liệu
+                        Flashcard cleanCard = new Flashcard(card.getEnglish().trim(), card.getVietnamese().trim(), card.getNote());
+                        if (repository.insert(cleanCard)) {
+                            importedCount++;
+                        }
                     }
                 }
             }
@@ -98,26 +95,13 @@ public class FlashcardService {
         return importedCount;
     }
 
-    public void exportToCsv(File file) throws Exception {
+    public void exportToJson(File file) throws Exception {
         List<Flashcard> cards = getAllCards();
-        // Ghi file với mã hóa UTF-8 BOM để Excel có thể đọc tiếng Việt hoàn hảo
-        try (FileOutputStream fos = new FileOutputStream(file);
-             OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
-             CSVPrinter printer = new CSVPrinter(osw, CSVFormat.DEFAULT.withHeader("English", "Vietnamese", "Note", "Score", "Memorized"))) {
 
-            // Ghi Byte Order Mark (BOM) cho Excel
-            fos.write(0xef); fos.write(0xbb); fos.write(0xbf);
-
-            for (Flashcard card : cards) {
-                printer.printRecord(
-                        card.getEnglish(),
-                        card.getVietnamese(),
-                        card.getNote(),
-                        card.getScore(),
-                        card.isMemorized() ? "Yes" : "No"
-                );
-            }
-            printer.flush();
+        try (Writer writer = new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8)) {
+            // GsonBuilder với setPrettyPrinting() để file JSON xuất ra đẹp, dễ đọc
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            gson.toJson(cards, writer);
         }
     }
 }

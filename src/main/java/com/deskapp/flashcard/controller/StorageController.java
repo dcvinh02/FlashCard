@@ -174,38 +174,38 @@ public class StorageController {
 
 
     @FXML
-    private void handleImportCsv() {
+    private void handleImportJson() {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Chọn file CSV từ vựng");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+        fileChooser.setTitle("Chọn file JSON từ vựng");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON Files", "*.json"));
 
         Stage stage = (Stage) txtSearch.getScene().getWindow();
         File file = fileChooser.showOpenDialog(stage);
 
         if (file != null) {
             try {
-                int count = flashcardService.importFromCsv(file);
-                loadList(flashcardService.searchCards(txtSearch.getText())); // Refresh UI
+                int count = flashcardService.importFromJson(file); // Gọi hàm JSON
+                loadList(flashcardService.searchCards(txtSearch.getText()));
                 showAlert("Thành công", "Đã nhập thành công " + count + " từ vựng vào kho!", Alert.AlertType.INFORMATION);
             } catch (Exception e) {
-                showAlert("Lỗi Import", "Không thể đọc file CSV. Vui lòng kiểm tra lại định dạng.\n" + e.getMessage(), Alert.AlertType.ERROR);
+                showAlert("Lỗi Import", "Không thể đọc file JSON. Vui lòng kiểm tra lại định dạng.\n" + e.getMessage(), Alert.AlertType.ERROR);
             }
         }
     }
 
     @FXML
-    private void handleExportCsv() {
+    private void handleExportJson() {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Lưu file CSV");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
-        fileChooser.setInitialFileName("Flashcards_Export.csv");
+        fileChooser.setTitle("Lưu file JSON");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON Files", "*.json"));
+        fileChooser.setInitialFileName("Flashcards_Export.json"); // Đổi đuôi file
 
         Stage stage = (Stage) txtSearch.getScene().getWindow();
         File file = fileChooser.showSaveDialog(stage);
 
         if (file != null) {
             try {
-                flashcardService.exportToCsv(file);
+                flashcardService.exportToJson(file); // Gọi hàm JSON
                 showAlert("Thành công", "Đã xuất toàn bộ kho từ vựng ra file:\n" + file.getAbsolutePath(), Alert.AlertType.INFORMATION);
             } catch (Exception e) {
                 showAlert("Lỗi Export", "Không thể lưu file.\n" + e.getMessage(), Alert.AlertType.ERROR);

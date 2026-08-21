@@ -26,15 +26,21 @@ public class StudyService {
         String normUser = userAnswer.trim().toLowerCase().replaceAll("\\s+", " ");
         String normExpected = expectedAnswer.trim().toLowerCase().replaceAll("\\s+", " ");
 
-        // 2. Kiểm tra khớp toàn bộ (trường hợp user gõ đủ "dồi dào, phong phú")
+        // 2. Kiểm tra khớp toàn bộ (trường hợp user gõ đủ "câu trả lời / trả lời")
         if (normExpected.equals(normUser)) {
             return true;
         }
 
-        // 3. Kiểm tra từng phần tử cách nhau bởi dấu phẩy
-        String[] parts = normExpected.split(",");
+        // 3. Tách chuỗi bằng MỌI loại dấu ngăn cách phổ biến: phẩy (,), gạch chéo (/), chấm phẩy (;), gạch ngang (-)
+        // Biểu thức chính quy "[,/;-]" sẽ cắt chuỗi ở bất kỳ dấu nào trong ngoặc.
+        String[] parts = normExpected.split("[,/;-]");
+
         for (String part : parts) {
-            if (part.trim().equals(normUser)) {
+            // Lấy từng phần, cắt khoảng trắng dư thừa ở 2 đầu
+            String cleanPart = part.trim();
+
+            // Nếu phần nghĩa đã được cắt ra khớp với đáp án người dùng gõ -> Đúng!
+            if (!cleanPart.isEmpty() && cleanPart.equals(normUser)) {
                 return true;
             }
         }
