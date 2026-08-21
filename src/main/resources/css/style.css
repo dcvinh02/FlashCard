@@ -93,3 +93,65 @@
     -fx-font-size: 15px;
     -fx-text-fill: #6E6E80;
 }
+/* --- LIST ROWS & BADGES (Bổ sung cho Phase 6) --- */
+.list-row {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 16;
+    -fx-padding: 15 20 15 20;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.03), 10, 0, 0, 2);
+}
+.list-row:hover {
+    -fx-background-color: #F8F9FA;
+    -fx-effect: dropshadow(three-pass-box, rgba(155, 125, 232, 0.15), 15, 0, 0, 4);
+}
+
+.badge-score {
+    -fx-background-color: #F0EDF8;
+    -fx-text-fill: #9B7DE8;
+    -fx-font-weight: bold;
+    -fx-padding: 6 12 6 12;
+    -fx-background-radius: 12;
+    -fx-font-size: 14px;
+}
+
+.btn-icon {
+    -fx-background-color: transparent;
+    -fx-text-fill: #A0A0B0;
+    -fx-font-size: 16px;
+    -fx-cursor: hand;
+    -fx-padding: 8;
+    -fx-background-radius: 50%;
+}
+.btn-icon:hover {
+    -fx-background-color: #F0EDF8;
+    -fx-text-fill: #9B7DE8;
+}
+
+/* Overlay nền đen mờ cho Popup */
+.overlay {
+    -fx-background-color: rgba(0, 0, 0, 0.4);
+}
+/* --- STUDY TAB FEEDBACK (Bổ sung cho Phase 7) --- */
+.input-correct {
+    -fx-border-color: #78C99A !important;
+    -fx-background-color: #F0FFF4 !important;
+    -fx-text-fill: #2E7D32 !important;
+}
+
+.input-error {
+    -fx-border-color: #E77C83 !important;
+    -fx-background-color: #FFF0F0 !important;
+    -fx-text-fill: #C62828 !important;
+}
+
+.feedback-text-correct {
+    -fx-text-fill: #78C99A;
+    -fx-font-weight: bold;
+    -fx-font-size: 15px;
+}
+
+.feedback-text-error {
+    -fx-text-fill: #E77C83;
+    -fx-font-weight: bold;
+    -fx-font-size: 15px;
+}

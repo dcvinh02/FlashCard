@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<StackPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.deskapp.flashcard.controller.StorageController"
+           style="-fx-background-color: transparent;">
+
+    <!-- LỚP DƯỚI: DANH SÁCH TỪ VỰNG -->
+    <VBox spacing="20" style="-fx-padding: 30;">
+        <!-- Thanh tìm kiếm -->
+        <HBox alignment="CENTER_LEFT" styleClass="card" style="-fx-padding: 10 20; -fx-background-radius: 16;">
+            <Label text="🔍" style="-fx-text-fill: #A0A0B0; -fx-font-size: 16px;"/>
+            <TextField fx:id="txtSearch" promptText="Tìm kiếm tiếng Anh hoặc tiếng Việt..."
+                       style="-fx-background-color: transparent; -fx-border-width: 0; -fx-font-size: 15px;"
+                       HBox.hgrow="ALWAYS"/>
+        </HBox>
+
+        <!-- Danh sách -->
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;" VBox.vgrow="ALWAYS">
+            <VBox fx:id="listContainer" spacing="10" style="-fx-background-color: transparent; -fx-padding: 5;"/>
+        </ScrollPane>
+    </VBox>
+
+    <!-- LỚP POPUP 1: XEM NOTE (Ẩn mặc định) -->
+    <VBox fx:id="popupNoteOverlay" visible="false" alignment="CENTER" styleClass="overlay">
+        <VBox styleClass="card" maxWidth="400" spacing="15">
+            <BorderPane>
+                <left>
+                    <Label fx:id="lblPopupEnglish" styleClass="title-text" BorderPane.alignment="CENTER"/>
+                </left>
+                <right>
+                    <Button text="✕" styleClass="btn-icon" onAction="#closePopups" BorderPane.alignment="CENTER"/>
+                </right>
+            </BorderPane>
+            <Label fx:id="lblPopupVietnamese" style="-fx-font-size: 16px; -fx-text-fill: #9B7DE8; -fx-font-weight: bold;"/>
+            <Separator style="-fx-opacity: 0.3;"/>
+            <Label text="Ghi chú:" styleClass="subtitle-text" style="-fx-font-weight: bold;"/>
+            <Label fx:id="lblPopupNote" wrapText="true" style="-fx-font-size: 15px; -fx-text-fill: #303040;"/>
+        </VBox>
+    </VBox>
+
+    <!-- LỚP POPUP 2: SỬA TỪ (Ẩn mặc định) -->
+    <VBox fx:id="popupEditOverlay" visible="false" alignment="CENTER" styleClass="overlay">
+        <VBox styleClass="card" maxWidth="500" spacing="15">
+            <BorderPane>
+                <left><Button text="✕ Hủy" styleClass="btn-secondary" onAction="#closePopups" BorderPane.alignment="CENTER"/></left>
+                <center><Label text="Sửa Flashcard" styleClass="title-text" style="-fx-font-size: 20px;" BorderPane.alignment="CENTER"/></center>
+                <right><Button text="✓ Lưu" styleClass="btn-primary" onAction="#saveEdit" BorderPane.alignment="CENTER"/></right>
+            </BorderPane>
+            <Label fx:id="lblEditError" style="-fx-text-fill: #E77C83; -fx-font-weight: bold;" managed="false" visible="false"/>
+
+            <VBox spacing="5">
+                <Label text="Tiếng Anh"/>
+                <TextField fx:id="txtEditEnglish" styleClass="text-field"/>
+            </VBox>
+            <VBox spacing="5">
+                <Label text="Tiếng Việt"/>
+                <TextField fx:id="txtEditVietnamese" styleClass="text-field"/>
+            </VBox>
+            <VBox spacing="5">
+                <Label text="Ghi chú"/>
+                <TextArea fx:id="txtEditNote" styleClass="text-area" prefRowCount="3"/>
+            </VBox>
+        </VBox>
+    </VBox>
+</StackPane>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<StackPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.deskapp.flashcard.controller.StudyController"
+           style="-fx-background-color: transparent;">
+
+    <!-- TRẠNG THÁI 1: HẾT TỪ VỰNG -->
+    <VBox fx:id="emptyState" alignment="CENTER" visible="false">
+        <VBox alignment="CENTER" spacing="15" styleClass="card" maxWidth="400">
+            <Label text="🎉" style="-fx-font-size: 60px;"/>
+            <Label text="Tuyệt vời!" styleClass="title-text"/>
+            <Label text="Bạn đã ôn tập xong hoặc đã nhớ toàn bộ từ vựng." styleClass="subtitle-text" wrapText="true" textAlignment="CENTER"/>
+        </VBox>
+    </VBox>
+
+    <!-- TRẠNG THÁI 2: ĐANG HỌC -->
+    <VBox fx:id="studyState" alignment="CENTER" spacing="20">
+        <VBox styleClass="card" maxWidth="500" spacing="20" style="-fx-background-radius: 24;">
+
+            <!-- Header: Thống kê cơ bản (Đã sửa lỗi CENTER_BETWEEN) -->
+            <BorderPane>
+                <left>
+                    <Label text="Chế độ ôn tập" styleClass="subtitle-text" style="-fx-font-weight: bold;" BorderPane.alignment="CENTER"/>
+                </left>
+                <right>
+                    <HBox spacing="5" alignment="CENTER" BorderPane.alignment="CENTER">
+                        <Label text="Điểm của từ:" styleClass="subtitle-text"/>
+                        <Label fx:id="lblScore" styleClass="badge-score" text="20"/>
+                    </HBox>
+                </right>
+            </BorderPane>
+
+            <!-- Khung Câu hỏi -->
+            <VBox alignment="CENTER" spacing="10" style="-fx-background-color: #F8F9FA; -fx-background-radius: 16; -fx-padding: 30;">
+                <Label fx:id="lblQuestionLang" text="Nghĩa tiếng Anh" styleClass="subtitle-text"/>
+                <Label fx:id="lblQuestionWord" text="Abundant" styleClass="title-text" style="-fx-font-size: 28px; -fx-text-fill: #9B7DE8;"/>
+            </VBox>
+
+            <!-- Nút Hoán đổi -->
+            <HBox alignment="CENTER">
+                <Button text="⇄ Hoán đổi chiều học" styleClass="btn-icon" onAction="#handleSwap" style="-fx-font-size: 14px; -fx-text-fill: #A0A0B0;"/>
+            </HBox>
+
+            <!-- Khung Trả lời -->
+            <VBox spacing="10">
+                <Label fx:id="lblAnswerLang" text="Nhập nghĩa tiếng Việt" styleClass="subtitle-text"/>
+                <TextField fx:id="txtAnswer" promptText="Nhập đáp án của bạn..." styleClass="text-field" onAction="#handleCheck"/>
+                <!-- Vùng hiển thị kết quả (Đúng/Sai) -->
+                <Label fx:id="lblFeedback" wrapText="true" managed="false" visible="false"/>
+            </VBox>
+
+            <Separator style="-fx-opacity: 0.3;"/>
+
+            <!-- Buttons Action -->
+            <HBox spacing="15" alignment="CENTER">
+                <Button fx:id="btnSkip" text="Bỏ qua (-1 điểm)" styleClass="btn-secondary" onAction="#handleSkip" prefWidth="180"/>
+                <Button fx:id="btnCheck" text="Kiểm tra" styleClass="btn-primary" onAction="#handleCheck" prefWidth="180"/>
+            </HBox>
+
+        </VBox>
+    </VBox>
+</StackPane>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<StackPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.deskapp.flashcard.controller.AddCardController"
+           style="-fx-background-color: transparent;">
+
+    <!-- TRẠNG THÁI 1: NÚT THÊM LỚN (Mặc định) -->
+    <VBox fx:id="emptyStateContainer" alignment="CENTER">
+        <VBox alignment="CENTER" spacing="15" styleClass="card"
+              onMouseClicked="#showForm"
+              maxWidth="300" maxHeight="300" style="-fx-cursor: hand; -fx-background-radius: 30;">
+            <Label text="+" style="-fx-font-size: 70px; -fx-text-fill: #9B7DE8; -fx-font-weight: bold;"/>
+            <Label text="Thêm flashcard mới" styleClass="title-text" style="-fx-font-size: 20px;"/>
+            <Label text="Nhấn để thêm" styleClass="subtitle-text"/>
+        </VBox>
+    </VBox>
+
+    <!-- TRẠNG THÁI 2: FORM NHẬP LIỆU (Ẩn mặc định) -->
+    <VBox fx:id="formContainer" alignment="CENTER" visible="false">
+        <VBox styleClass="card" maxWidth="500" spacing="15" style="-fx-background-radius: 24;">
+
+            <!-- Header của Form (Đã sửa lỗi CENTER_BETWEEN) -->
+            <BorderPane>
+                <left>
+                    <Button text="✕ Hủy" styleClass="btn-secondary" onAction="#handleCancel" BorderPane.alignment="CENTER"/>
+                </left>
+                <center>
+                    <Label text="Thêm Từ Mới" styleClass="title-text" style="-fx-font-size: 22px;" BorderPane.alignment="CENTER"/>
+                </center>
+                <right>
+                    <Button text="✓ Lưu" styleClass="btn-primary" onAction="#handleSave" BorderPane.alignment="CENTER"/>
+                </right>
+            </BorderPane>
+
+            <Separator style="-fx-opacity: 0.3;"/>
+
+            <!-- Vùng hiển thị thông báo lỗi / thành công -->
+            <Label fx:id="lblError" style="-fx-text-fill: #E77C83; -fx-font-weight: bold;" managed="false" visible="false"/>
+            <Label fx:id="lblSuccess" style="-fx-text-fill: #78C99A; -fx-font-weight: bold;" managed="false" visible="false"/>
+
+            <!-- Input Fields -->
+            <VBox spacing="8">
+                <Label text="Từ tiếng Anh" styleClass="subtitle-text" style="-fx-font-weight: bold; -fx-text-fill: #303040;"/>
+                <TextField fx:id="txtEnglish" promptText="VD: Abundant..." styleClass="text-field" />
+            </VBox>
+
+            <VBox spacing="8">
+                <Label text="Nghĩa tiếng Việt" styleClass="subtitle-text" style="-fx-font-weight: bold; -fx-text-fill: #303040;"/>
+                <TextField fx:id="txtVietnamese" promptText="VD: dồi dào, phong phú..." styleClass="text-field" />
+            </VBox>
+
+            <VBox spacing="8">
+                <Label text="Ghi chú (Note)" styleClass="subtitle-text" style="-fx-font-weight: bold; -fx-text-fill: #303040;"/>
+                <TextArea fx:id="txtNote" promptText="Nhập ghi chú cách sử dụng hoặc ví dụ..." styleClass="text-area" prefRowCount="4" wrapText="true"/>
+            </VBox>
+        </VBox>
+    </VBox>
+</StackPane>
