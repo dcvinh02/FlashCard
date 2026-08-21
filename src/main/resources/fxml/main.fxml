@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.deskapp.flashcard.controller.MainController">
+
+    <!-- KHU VỰC TRUNG TÂM: CHỨA CÁC TAB -->
+    <center>
+        <StackPane fx:id="contentArea">
+            <children>
+                <VBox alignment="CENTER" spacing="15">
+                    <Label styleClass="title-text" text="Đang tải giao diện..." />
+                    <Label styleClass="subtitle-text" text="Vui lòng chọn một Tab bên dưới." />
+                </VBox>
+            </children>
+        </StackPane>
+    </center>
+
+    <!-- THANH ĐIỀU HƯỚNG BÊN DƯỚI -->
+    <bottom>
+        <HBox alignment="CENTER" prefHeight="80.0">
+            <padding>
+                <Insets bottom="20" left="20" right="20" top="0"/>
+            </padding>
+            <HBox alignment="CENTER" spacing="10.0" styleClass="bottom-nav">
+                <Button fx:id="btnAddTab" text="+ Thêm" styleClass="nav-button" onAction="#switchToAddTab" prefWidth="120"/>
+                <Button fx:id="btnStorageTab" text="Lưu trữ" styleClass="nav-button" onAction="#switchToStorageTab" prefWidth="120"/>
+                <Button fx:id="btnStudyTab" text="Học" styleClass="nav-button" onAction="#switchToStudyTab" prefWidth="120"/>
+            </HBox>
+        </HBox>
+    </bottom>
+
+</BorderPane>

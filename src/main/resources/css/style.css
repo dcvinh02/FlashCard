@@ -1,0 +1,95 @@
+/* --- GLOBAL --- */
+.root {
+    -fx-background-color: #FAF8FF;
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* --- BOTTOM NAVIGATION --- */
+.bottom-nav {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 20;
+    -fx-effect: dropshadow(three-pass-box, rgba(155, 125, 232, 0.15), 15, 0, 0, 5);
+    -fx-padding: 10 20 10 20;
+}
+
+.nav-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #A0A0B0;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 12 30 12 30;
+    -fx-background-radius: 15;
+    -fx-cursor: hand;
+}
+
+.nav-button:hover {
+    -fx-background-color: #F0EDF8;
+    -fx-text-fill: #9B7DE8;
+}
+
+.nav-button-active {
+    -fx-background-color: #9B7DE8;
+    -fx-text-fill: #FFFFFF;
+}
+
+.nav-button-active:hover {
+    -fx-background-color: #8A6CD7;
+    -fx-text-fill: #FFFFFF;
+}
+
+/* --- CARDS & PANELS --- */
+.card {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 24;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.05), 20, 0, 0, 4);
+    -fx-padding: 30;
+}
+
+/* --- BUTTONS --- */
+.btn-primary {
+    -fx-background-color: #9B7DE8;
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 12;
+    -fx-padding: 10 24 10 24;
+    -fx-cursor: hand;
+}
+.btn-primary:hover { -fx-background-color: #8A6CD7; }
+
+.btn-secondary {
+    -fx-background-color: #F0EDF8;
+    -fx-text-fill: #9B7DE8;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 12;
+    -fx-padding: 10 24 10 24;
+    -fx-cursor: hand;
+}
+.btn-secondary:hover { -fx-background-color: #E6E0F4; }
+
+/* --- INPUTS --- */
+.text-field, .text-area {
+    -fx-background-color: #F8F9FA;
+    -fx-border-color: #E2E8F0;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-padding: 12;
+    -fx-font-size: 15px;
+    -fx-text-fill: #303040;
+}
+.text-field:focused, .text-area:focused {
+    -fx-border-color: #9B7DE8;
+    -fx-background-color: #FFFFFF;
+}
+
+/* --- TYPOGRAPHY --- */
+.title-text {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #303040;
+}
+.subtitle-text {
+    -fx-font-size: 15px;
+    -fx-text-fill: #6E6E80;
+}
