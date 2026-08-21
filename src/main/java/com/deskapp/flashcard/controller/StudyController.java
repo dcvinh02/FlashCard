@@ -17,6 +17,7 @@ public class StudyController {
 
     @FXML private VBox emptyState;
     @FXML private VBox studyState;
+    @FXML private VBox studyCard;
 
     @FXML private Label lblScore;
     @FXML private Label lblQuestionLang;
@@ -54,16 +55,20 @@ public class StudyController {
     }
 
     private void loadRandomCard() {
-        // Reset UI
+        studyCard.getStyleClass().removeAll("card-correct", "card-error");
+
         txtAnswer.clear();
         txtAnswer.getStyleClass().removeAll("input-correct", "input-error");
         txtAnswer.setDisable(false);
-        lblFeedback.setVisible(false); lblFeedback.setManaged(false);
+
+        // CHỈ ẨN ĐI (Giữ nguyên không gian), không rút thẻ ra khỏi bố cục nữa
+        lblFeedback.setVisible(false);
+        lblFeedback.setText("");
+
         btnSkip.setDisable(false);
         btnCheck.setDisable(false);
         txtAnswer.requestFocus();
 
-        // Chọn thẻ ngẫu nhiên (tránh lặp lại thẻ vừa học nếu list > 1)
         if (studyList.size() > 1) {
             Flashcard nextCard;
             do {
@@ -74,7 +79,6 @@ public class StudyController {
             currentCard = studyList.get(0);
         }
 
-        // Đổ dữ liệu lên UI
         lblScore.setText(String.valueOf(currentCard.getScore()));
 
         if (isEngToVie) {
@@ -91,13 +95,13 @@ public class StudyController {
     @FXML
     private void handleSwap() {
         isEngToVie = !isEngToVie;
-        loadRandomCard(); // Load lại câu hỏi theo chiều mới
+        loadRandomCard();
     }
 
     @FXML
     private void handleSkip() {
-        studyService.updateScore(currentCard, false); // Trừ 1 điểm
-        loadRandomCard(); // Đổi câu mới ngay lập tức
+        studyService.updateScore(currentCard, false);
+        loadRandomCard();
     }
 
     @FXML
@@ -108,39 +112,38 @@ public class StudyController {
         String expectedAnswer = isEngToVie ? currentCard.getVietnamese() : currentCard.getEnglish();
         boolean isCorrect = studyService.isAnswerCorrect(userAnswer, expectedAnswer);
 
-        // Khóa input để người dùng không bấm Check liên tục
         txtAnswer.setDisable(true);
         btnSkip.setDisable(true);
         btnCheck.setDisable(true);
 
         studyService.updateScore(currentCard, isCorrect);
-        lblScore.setText(String.valueOf(currentCard.getScore())); // Cập nhật điểm trên UI ngay
+        lblScore.setText(String.valueOf(currentCard.getScore()));
 
-        lblFeedback.setManaged(true);
+        // Hiện chữ lên (Không làm giật Layout vì chỗ đã được giữ sẵn)
         lblFeedback.setVisible(true);
 
         PauseTransition pause;
 
         if (isCorrect) {
             txtAnswer.getStyleClass().add("input-correct");
+            studyCard.getStyleClass().add("card-correct");
             lblFeedback.getStyleClass().setAll("feedback-text-correct");
 
-            // Xử lý hiển thị nghĩa đầy đủ nếu có dấy phẩy
             if (expectedAnswer.contains(",")) {
                 lblFeedback.setText("✓ Chính xác! Đáp án đầy đủ: " + expectedAnswer);
             } else {
                 lblFeedback.setText("✓ Chính xác!");
             }
 
-            pause = new PauseTransition(Duration.seconds(2)); // Chờ 2s
+            pause = new PauseTransition(Duration.seconds(2));
         } else {
             txtAnswer.getStyleClass().add("input-error");
+            studyCard.getStyleClass().add("card-error");
             lblFeedback.getStyleClass().setAll("feedback-text-error");
             lblFeedback.setText("✗ Sai rồi. Đáp án đúng: " + expectedAnswer);
-            pause = new PauseTransition(Duration.seconds(5)); // Chờ 5s
+            pause = new PauseTransition(Duration.seconds(5));
         }
 
-        // Sau khi đếm ngược xong -> Chuyển câu mới
         pause.setOnFinished(e -> loadRandomCard());
         pause.play();
     }

@@ -10,12 +10,16 @@
 
     <!-- LỚP DƯỚI: DANH SÁCH TỪ VỰNG -->
     <VBox spacing="20" style="-fx-padding: 30;">
-        <!-- Thanh tìm kiếm -->
-        <HBox alignment="CENTER_LEFT" styleClass="card" style="-fx-padding: 10 20; -fx-background-radius: 16;">
-            <Label text="🔍" style="-fx-text-fill: #A0A0B0; -fx-font-size: 16px;"/>
-            <TextField fx:id="txtSearch" promptText="Tìm kiếm tiếng Anh hoặc tiếng Việt..."
-                       style="-fx-background-color: transparent; -fx-border-width: 0; -fx-font-size: 15px;"
-                       HBox.hgrow="ALWAYS"/>
+        <!-- Thanh tìm kiếm và Nút Import/Export -->
+        <HBox alignment="CENTER_LEFT" spacing="15">
+            <HBox alignment="CENTER_LEFT" styleClass="card" style="-fx-padding: 10 20; -fx-background-radius: 16;" HBox.hgrow="ALWAYS">
+                <Label text="🔍" style="-fx-text-fill: #A0A0B0; -fx-font-size: 16px;"/>
+                <TextField fx:id="txtSearch" promptText="Tìm kiếm tiếng Anh hoặc tiếng Việt..."
+                           style="-fx-background-color: transparent; -fx-border-width: 0; -fx-font-size: 15px;"
+                           HBox.hgrow="ALWAYS"/>
+            </HBox>
+            <Button text="📥 Nhập CSV" styleClass="btn-secondary" onAction="#handleImportCsv"/>
+            <Button text="📤 Xuất CSV" styleClass="btn-primary" onAction="#handleExportCsv"/>
         </HBox>
 
         <!-- Danh sách -->
@@ -35,7 +39,7 @@
                     <Button text="✕" styleClass="btn-icon" onAction="#closePopups" BorderPane.alignment="CENTER"/>
                 </right>
             </BorderPane>
-            <Label fx:id="lblPopupVietnamese" style="-fx-font-size: 16px; -fx-text-fill: #9B7DE8; -fx-font-weight: bold;"/>
+            <Label fx:id="lblPopupVietnamese" style="-fx-font-size: 16px; -fx-text-fill: #E88AC0; -fx-font-weight: bold;"/>
             <Separator style="-fx-opacity: 0.3;"/>
             <Label text="Ghi chú:" styleClass="subtitle-text" style="-fx-font-weight: bold;"/>
             <Label fx:id="lblPopupNote" wrapText="true" style="-fx-font-size: 15px; -fx-text-fill: #303040;"/>

@@ -11,7 +11,7 @@
     <!-- TRẠNG THÁI 1: HẾT TỪ VỰNG -->
     <VBox fx:id="emptyState" alignment="CENTER" visible="false">
         <VBox alignment="CENTER" spacing="15" styleClass="card" maxWidth="400">
-            <Label text="🎉" style="-fx-font-size: 60px;"/>
+            <Label text="🎉" style="-fx-font-size: 100px;"/>
             <Label text="Tuyệt vời!" styleClass="title-text"/>
             <Label text="Bạn đã ôn tập xong hoặc đã nhớ toàn bộ từ vựng." styleClass="subtitle-text" wrapText="true" textAlignment="CENTER"/>
         </VBox>
@@ -19,9 +19,10 @@
 
     <!-- TRẠNG THÁI 2: ĐANG HỌC -->
     <VBox fx:id="studyState" alignment="CENTER" spacing="20">
-        <VBox styleClass="card" maxWidth="500" spacing="20" style="-fx-background-radius: 24;">
+        <!-- Đã thêm minHeight="430" để cố định khung Card rộng rãi, không bị co giãn -->
+        <VBox fx:id="studyCard" styleClass="card" maxWidth="500" minHeight="430" spacing="20" style="-fx-background-radius: 24;">
 
-            <!-- Header: Thống kê cơ bản (Đã sửa lỗi CENTER_BETWEEN) -->
+            <!-- Header: Thống kê cơ bản -->
             <BorderPane>
                 <left>
                     <Label text="Chế độ ôn tập" styleClass="subtitle-text" style="-fx-font-weight: bold;" BorderPane.alignment="CENTER"/>
@@ -35,9 +36,9 @@
             </BorderPane>
 
             <!-- Khung Câu hỏi -->
-            <VBox alignment="CENTER" spacing="10" style="-fx-background-color: #F8F9FA; -fx-background-radius: 16; -fx-padding: 30;">
+            <VBox alignment="CENTER" spacing="3" style="-fx-background-color: #F8F9FA; -fx-background-radius: 16; -fx-padding: 15 30 15 30;">
                 <Label fx:id="lblQuestionLang" text="Nghĩa tiếng Anh" styleClass="subtitle-text"/>
-                <Label fx:id="lblQuestionWord" text="Abundant" styleClass="title-text" style="-fx-font-size: 28px; -fx-text-fill: #9B7DE8;"/>
+                <Label fx:id="lblQuestionWord" text="Abundant" styleClass="title-text" style="-fx-font-size: 50px; -fx-text-fill: #303040;"/>
             </VBox>
 
             <!-- Nút Hoán đổi -->
@@ -49,8 +50,9 @@
             <VBox spacing="10">
                 <Label fx:id="lblAnswerLang" text="Nhập nghĩa tiếng Việt" styleClass="subtitle-text"/>
                 <TextField fx:id="txtAnswer" promptText="Nhập đáp án của bạn..." styleClass="text-field" onAction="#handleCheck"/>
-                <!-- Vùng hiển thị kết quả (Đúng/Sai) -->
-                <Label fx:id="lblFeedback" wrapText="true" managed="false" visible="false"/>
+
+                <!-- Bỏ managed="false", thêm minHeight="45" để luôn giữ chỗ trống khi ẩn -->
+                <Label fx:id="lblFeedback" wrapText="true" minHeight="45" alignment="TOP_LEFT" visible="false"/>
             </VBox>
 
             <Separator style="-fx-opacity: 0.3;"/>

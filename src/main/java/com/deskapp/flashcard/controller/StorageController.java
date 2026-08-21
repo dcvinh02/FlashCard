@@ -10,6 +10,10 @@ import javafx.scene.layout.*;
 import java.util.List;
 import java.util.Optional;
 
+import java.io.File;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+
 public class StorageController {
 
     @FXML private TextField txtSearch;
@@ -100,10 +104,10 @@ public class StorageController {
         MenuButton btnMore = new MenuButton("⋯");
         btnMore.getStyleClass().add("btn-icon");
 
-        MenuItem editItem = new MenuItem("✎ Sửa từ");
+        MenuItem editItem = new MenuItem("Sửa từ");
         editItem.setOnAction(e -> showEditPopup(card));
 
-        MenuItem deleteItem = new MenuItem("🗑 Xóa từ");
+        MenuItem deleteItem = new MenuItem("Xóa từ");
         deleteItem.setStyle("-fx-text-fill: #E77C83;");
         deleteItem.setOnAction(e -> handleDelete(card));
 
@@ -166,5 +170,54 @@ public class StorageController {
         popupNoteOverlay.setVisible(false);
         popupEditOverlay.setVisible(false);
         currentEditingCard = null;
+    }
+
+
+    @FXML
+    private void handleImportCsv() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Chọn file CSV từ vựng");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+
+        Stage stage = (Stage) txtSearch.getScene().getWindow();
+        File file = fileChooser.showOpenDialog(stage);
+
+        if (file != null) {
+            try {
+                int count = flashcardService.importFromCsv(file);
+                loadList(flashcardService.searchCards(txtSearch.getText())); // Refresh UI
+                showAlert("Thành công", "Đã nhập thành công " + count + " từ vựng vào kho!", Alert.AlertType.INFORMATION);
+            } catch (Exception e) {
+                showAlert("Lỗi Import", "Không thể đọc file CSV. Vui lòng kiểm tra lại định dạng.\n" + e.getMessage(), Alert.AlertType.ERROR);
+            }
+        }
+    }
+
+    @FXML
+    private void handleExportCsv() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Lưu file CSV");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+        fileChooser.setInitialFileName("Flashcards_Export.csv");
+
+        Stage stage = (Stage) txtSearch.getScene().getWindow();
+        File file = fileChooser.showSaveDialog(stage);
+
+        if (file != null) {
+            try {
+                flashcardService.exportToCsv(file);
+                showAlert("Thành công", "Đã xuất toàn bộ kho từ vựng ra file:\n" + file.getAbsolutePath(), Alert.AlertType.INFORMATION);
+            } catch (Exception e) {
+                showAlert("Lỗi Export", "Không thể lưu file.\n" + e.getMessage(), Alert.AlertType.ERROR);
+            }
+        }
+    }
+
+    private void showAlert(String title, String content, Alert.AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }
